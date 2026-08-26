@@ -450,13 +450,15 @@ function Skills() {
 function Resume() {
     return (
         <div className="h-full w-full flex flex-col">
-            <div className="bg-ub-cool-grey px-4 py-2 flex justify-between items-center border-b border-gray-700">
-                <span className="text-xs md:text-sm font-mono text-gray-200">Yash Bansal • Resume (2026)</span>
-                <a href="./files/Yash-Bansal-Resume.pdf" download="Yash-Bansal-Resume.pdf" className="px-3 py-1 bg-ub-orange hover:bg-opacity-90 rounded text-xs font-bold font-mono transition text-white">
-                    Download PDF
+            <div className="bg-ub-cool-grey px-4 py-2.5 flex justify-between items-center border-b border-gray-700 flex-shrink-0">
+                <span className="text-xs md:text-sm font-mono text-gray-200 font-medium">Yash Bansal • Resume (2026)</span>
+                <a href="./files/Yash-Bansal-Resume.pdf" download="Yash-Bansal-Resume.pdf" target="_blank" rel="noreferrer" className="px-3 py-1 bg-ub-orange hover:bg-opacity-90 rounded text-xs font-bold font-mono transition text-white shadow">
+                    Download PDF ↗
                 </a>
             </div>
-            <iframe className="flex-grow w-full" src="./files/Yash-Bansal-Resume.pdf" title="Yash Bansal Resume" frameBorder="0"></iframe>
+            <div className="flex-grow w-full relative bg-gray-900">
+                <iframe className="w-full h-full" src="./files/Yash-Bansal-Resume.pdf#toolbar=1" title="Yash Bansal Resume" frameBorder="0"></iframe>
+            </div>
         </div>
     )
 }
