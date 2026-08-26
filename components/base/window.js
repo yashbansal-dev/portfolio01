@@ -236,39 +236,33 @@ export class WindowXBorder extends Component {
 export function WindowEditButtons(props) {
     return (
         <div className="absolute select-none right-0 top-0 mt-1 mr-1 flex justify-center items-center">
-            <span className="mx-1.5 bg-white bg-opacity-0 hover:bg-opacity-10 rounded-full flex justify-center mt-1 h-5 w-5 items-center" onClick={props.minimize}>
-                <img
-                    src="./themes/Yaru/window/window-minimize-symbolic.svg"
-                    alt="ubuntu window minimize"
-                    className="h-5 w-5 inline"
-                />
+            <span className="mx-1.5 bg-white bg-opacity-0 hover:bg-opacity-20 rounded-full flex justify-center mt-1 h-5 w-5 items-center cursor-pointer transition" onClick={props.minimize} title="Minimize">
+                <svg className="h-3 w-3 text-white fill-current" viewBox="0 0 16 16">
+                    <rect y="7" width="16" height="2" rx="1" />
+                </svg>
             </span>
             {
                 (props.isMaximised
                     ?
-                    <span className="mx-2 bg-white bg-opacity-0 hover:bg-opacity-10 rounded-full flex justify-center mt-1 h-5 w-5 items-center" onClick={props.maximize}>
-                        <img
-                            src="./themes/Yaru/window/window-restore-symbolic.svg"
-                            alt="ubuntu window restore"
-                            className="h-5 w-5 inline"
-                        />
+                    <span className="mx-2 bg-white bg-opacity-0 hover:bg-opacity-20 rounded-full flex justify-center mt-1 h-5 w-5 items-center cursor-pointer transition" onClick={props.maximize} title="Restore">
+                        <svg className="h-3 w-3 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <rect x="4" y="2" width="10" height="10" rx="1" />
+                            <rect x="2" y="4" width="10" height="10" rx="1" fill="#3E3E3E" />
+                        </svg>
                     </span>
                     :
-                    <span className="mx-2 bg-white bg-opacity-0 hover:bg-opacity-10 rounded-full flex justify-center mt-1 h-5 w-5 items-center" onClick={props.maximize}>
-                        <img
-                            src="./themes/Yaru/window/window-maximize-symbolic.svg"
-                            alt="ubuntu window maximize"
-                            className="h-5 w-5 inline"
-                        />
+                    <span className="mx-2 bg-white bg-opacity-0 hover:bg-opacity-20 rounded-full flex justify-center mt-1 h-5 w-5 items-center cursor-pointer transition" onClick={props.maximize} title="Maximize">
+                        <svg className="h-3 w-3 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="2" y="2" width="12" height="12" rx="1" />
+                        </svg>
                     </span>
                 )
             }
-            <button tabIndex="-1" id={`close-${props.id}`} className="mx-1.5 focus:outline-none cursor-default bg-ub-orange bg-opacity-90 hover:bg-opacity-100 rounded-full flex justify-center mt-1 h-5 w-5 items-center" onClick={props.close}>
-                <img
-                    src="./themes/Yaru/window/window-close-symbolic.svg"
-                    alt="ubuntu window close"
-                    className="h-5 w-5 inline"
-                />
+            <button tabIndex="-1" id={`close-${props.id}`} className="mx-1.5 focus:outline-none cursor-pointer bg-ub-orange bg-opacity-90 hover:bg-opacity-100 rounded-full flex justify-center mt-1 h-5 w-5 items-center transition" onClick={props.close} title="Close">
+                <svg className="h-3 w-3 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                    <line x1="3.5" y1="3.5" x2="12.5" y2="12.5" />
+                    <line x1="12.5" y1="3.5" x2="3.5" y2="12.5" />
+                </svg>
             </button>
         </div>
     )

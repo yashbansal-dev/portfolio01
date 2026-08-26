@@ -42,20 +42,31 @@ export class AboutYash extends Component {
 
     changeScreen = (e) => {
         if (!e) return;
-        const screen = e.id || e.target?.id;
+        let screen = null;
+        if (typeof e === 'string') {
+            screen = e;
+        } else if (e.currentTarget?.id) {
+            screen = e.currentTarget.id;
+        } else if (e.id) {
+            screen = e.id;
+        } else if (e.target?.id) {
+            screen = e.target.id;
+        } else if (e.target?.closest?.('[id]')?.id) {
+            screen = e.target.closest('[id]').id;
+        }
+
         if (!screen || !this.screens[screen]) return;
 
-        // store this state
         localStorage.setItem("about-section", screen);
 
-        // google analytics if tracking ID is set
         if (process.env.NEXT_PUBLIC_TRACKING_ID) {
             ReactGA.send({ hitType: "pageview", page: `/${screen}`, title: `Yash Portfolio - ${screen}` });
         }
 
         this.setState({
             screen: this.screens[screen],
-            active_screen: screen
+            active_screen: screen,
+            navbar: false,
         });
     }
 
@@ -64,27 +75,42 @@ export class AboutYash extends Component {
     }
 
     renderNavLinks = () => {
+        const linkClass = (id) => (
+            (this.state.active_screen === id ? " bg-ub-orange bg-opacity-100 hover:bg-opacity-95 font-medium " : " hover:bg-gray-50 hover:bg-opacity-10 text-gray-300 ") +
+            " w-28 md:w-full md:rounded-none rounded-sm cursor-pointer outline-none py-2 focus:outline-none duration-100 my-0.5 flex justify-start items-center pl-2 md:pl-3 select-none"
+        );
+
         return (
             <>
-                <div id="about" tabIndex="0" onFocus={this.changeScreen} className={(this.state.active_screen === "about" ? " bg-ub-orange bg-opacity-100 hover:bg-opacity-95" : " hover:bg-gray-50 hover:bg-opacity-5 ") + " w-28 md:w-full md:rounded-none rounded-sm cursor-default outline-none py-1.5 focus:outline-none duration-100 my-0.5 flex justify-start items-center pl-2 md:pl-2.5"}>
-                    <img className=" w-3 md:w-4" alt="about yash" src="./themes/Yaru/status/about.svg" />
-                    <span className=" ml-1 md:ml-2 text-gray-50 ">Overview</span>
+                <div id="about" tabIndex="0" onClick={this.changeScreen} onFocus={this.changeScreen} className={linkClass("about")}>
+                    <svg className="w-4 h-4 mr-2 text-white fill-current flex-shrink-0" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg>
+                    <span className="text-white text-xs md:text-sm">Overview</span>
                 </div>
-                <div id="projects" tabIndex="0" onFocus={this.changeScreen} className={(this.state.active_screen === "projects" ? " bg-ub-orange bg-opacity-100 hover:bg-opacity-95" : " hover:bg-gray-50 hover:bg-opacity-5 ") + " w-28 md:w-full md:rounded-none rounded-sm cursor-default outline-none py-1.5 focus:outline-none duration-100 my-0.5 flex justify-start items-center pl-2 md:pl-2.5"}>
-                    <img className=" w-3 md:w-4" alt="yash projects" src="./themes/Yaru/status/projects.svg" />
-                    <span className=" ml-1 md:ml-2 text-gray-50 ">Projects</span>
+                <div id="projects" tabIndex="0" onClick={this.changeScreen} onFocus={this.changeScreen} className={linkClass("projects")}>
+                    <svg className="w-4 h-4 mr-2 text-white fill-current flex-shrink-0" viewBox="0 0 24 24">
+                        <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-1 8h-3v3h-2v-3h-3v-2h3V9h2v3h3v2z"/>
+                    </svg>
+                    <span className="text-white text-xs md:text-sm">Projects</span>
                 </div>
-                <div id="experience" tabIndex="0" onFocus={this.changeScreen} className={(this.state.active_screen === "experience" ? " bg-ub-orange bg-opacity-100 hover:bg-opacity-95" : " hover:bg-gray-50 hover:bg-opacity-5 ") + " w-28 md:w-full md:rounded-none rounded-sm cursor-default outline-none py-1.5 focus:outline-none duration-100 my-0.5 flex justify-start items-center pl-2 md:pl-2.5"}>
-                    <img className=" w-3 md:w-4" alt="yash experience" src="./themes/Yaru/status/experience.svg" />
-                    <span className=" ml-1 md:ml-2 text-gray-50 ">Experience</span>
+                <div id="experience" tabIndex="0" onClick={this.changeScreen} onFocus={this.changeScreen} className={linkClass("experience")}>
+                    <svg className="w-4 h-4 mr-2 text-white fill-current flex-shrink-0" viewBox="0 0 24 24">
+                        <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+                    </svg>
+                    <span className="text-white text-xs md:text-sm">Experience</span>
                 </div>
-                <div id="skills" tabIndex="0" onFocus={this.changeScreen} className={(this.state.active_screen === "skills" ? " bg-ub-orange bg-opacity-100 hover:bg-opacity-95" : " hover:bg-gray-50 hover:bg-opacity-5 ") + " w-28 md:w-full md:rounded-none rounded-sm cursor-default outline-none py-1.5 focus:outline-none duration-100 my-0.5 flex justify-start items-center pl-2 md:pl-2.5"}>
-                    <img className=" w-3 md:w-4" alt="yash skills" src="./themes/Yaru/status/skills.svg" />
-                    <span className=" ml-1 md:ml-2 text-gray-50 ">Skills</span>
+                <div id="skills" tabIndex="0" onClick={this.changeScreen} onFocus={this.changeScreen} className={linkClass("skills")}>
+                    <svg className="w-4 h-4 mr-2 text-white fill-current flex-shrink-0" viewBox="0 0 24 24">
+                        <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+                    </svg>
+                    <span className="text-white text-xs md:text-sm">Skills</span>
                 </div>
-                <div id="resume" tabIndex="0" onFocus={this.changeScreen} className={(this.state.active_screen === "resume" ? " bg-ub-orange bg-opacity-100 hover:bg-opacity-95" : " hover:bg-gray-50 hover:bg-opacity-5 ") + " w-28 md:w-full md:rounded-none rounded-sm cursor-default outline-none py-1.5 focus:outline-none duration-100 my-0.5 flex justify-start items-center pl-2 md:pl-2.5"}>
-                    <img className=" w-3 md:w-4" alt="yash resume" src="./themes/Yaru/status/download.svg" />
-                    <span className=" ml-1 md:ml-2 text-gray-50 ">Resume</span>
+                <div id="resume" tabIndex="0" onClick={this.changeScreen} onFocus={this.changeScreen} className={linkClass("resume")}>
+                    <svg className="w-4 h-4 mr-2 text-white fill-current flex-shrink-0" viewBox="0 0 24 24">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                    </svg>
+                    <span className="text-white text-xs md:text-sm">Resume</span>
                 </div>
             </>
         );
