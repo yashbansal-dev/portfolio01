@@ -118,10 +118,6 @@ export const displayAboutYash = () => {
     return <AboutYash />;
 }
 
-// Backward compatibility alias
-export const displayAboutVivek = displayAboutYash;
-export const AboutVivek = AboutYash;
-
 
 function About(props) {
     return (

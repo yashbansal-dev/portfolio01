@@ -279,7 +279,6 @@ export class Terminal extends Component {
                 }
                 break;
             case "about-yash":
-            case "about-vivek":
                 if (words[0] === "." || words.length === 0) {
                     this.props.openApp("about-yash");
                 } else {
