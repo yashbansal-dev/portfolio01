@@ -20,12 +20,12 @@ export default function Meta() {
             <meta name="theme-color" content="#E95420" />
 
             {/* Search Engine */}
-            <meta name="image" content="images/logos/fevicon.png" />
+            <meta name="image" content="images/logos/favicon.png" />
             {/* Schema.org for Google */}
             <meta itemProp="name" content="Yash Bansal • Software Developer & AI Researcher" />
             <meta itemProp="description"
                 content="Yash Bansal — Software Developer & AI Researcher. Specializing in scalable backend architectures, deep learning computer vision, and high-performance web systems." />
-            <meta itemProp="image" content="images/logos/fevicon.png" />
+            <meta itemProp="image" content="images/logos/favicon.png" />
             {/* Twitter */}
             <meta name="twitter:card" content="summary" />
             <meta name="twitter:title" content="Yash Bansal • Software Developer & AI Researcher" />
@@ -33,19 +33,20 @@ export default function Meta() {
                 content="Yash Bansal — Software Developer & AI Researcher. Specializing in scalable backend architectures, deep learning computer vision, and high-performance web systems." />
             <meta name="twitter:site" content="yashbansal-dev" />
             <meta name="twitter:creator" content="yashbansal-dev" />
-            <meta name="twitter:image:src" content="images/logos/logo_1024.png" />
+            <meta name="twitter:image:src" content="images/logos/favicon.png" />
             {/* Open Graph */}
             <meta name="og:title" content="Yash Bansal • Software Developer & AI Researcher" />
             <meta name="og:description"
                 content="Yash Bansal — Software Developer & AI Researcher. Specializing in scalable backend architectures, deep learning computer vision, and high-performance web systems." />
-            <meta name="og:image" content="images/logos/logo_1200.png" />
+            <meta name="og:image" content="images/logos/favicon.png" />
             <meta name="og:url" content="https://github.com/yashbansal-dev" />
             <meta name="og:site_name" content="Yash Bansal Personal Portfolio" />
             <meta name="og:locale" content="en_IN" />
             <meta name="og:type" content="website" />
 
-            <link rel="icon" href="images/logos/fevicon.svg" />
-            <link rel="apple-touch-icon" href="images/logos/logo.png" />
+            <link rel="shortcut icon" href="favicon.ico" />
+            <link rel="icon" type="image/png" href="images/logos/favicon.png" />
+            <link rel="apple-touch-icon" href="images/logos/favicon.png" />
             <link rel="preload" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" as="style" />
             <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
         </Head>
