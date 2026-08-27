@@ -23,7 +23,7 @@ export class Trash extends Component {
                 icon: "./themes/Yaru/system/folder.png"
             },
             {
-                name: "assignment_final_v2_FINAL.zip",
+                name: "18BCP127 assignment name.zip",
                 icon: "./themes/filetypes/zip.png"
             },
             {

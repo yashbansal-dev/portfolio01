@@ -3,14 +3,7 @@ import React, { Component } from 'react';
 export class Chrome extends Component {
     constructor() {
         super();
-        this.home_url = 'chrome://newtab';
-        this.state = {
-            url: 'chrome://newtab',
-            display_url: 'https://www.google.com',
-            search_query: '',
-            is_home: true,
-        };
-
+        this.home_url = 'https://www.google.com';
         this.shortcuts = [
             {
                 title: "GitHub",
@@ -19,58 +12,41 @@ export class Chrome extends Component {
                 bg: "#24292e"
             },
             {
-                title: "OpenSeek (AI)",
+                title: "OpenSeek",
                 url: "https://github.com/yashbansal-dev/OpenSeek",
                 icon: "./themes/Yaru/apps/tars.svg",
-                bg: "#1e1e2e"
+                bg: "#1e1e1e"
             },
             {
-                title: "Spardha",
-                url: "https://github.com/yashbansal-dev/spardha",
-                icon: "./themes/Yaru/system/user-home.png",
-                bg: "#E95420"
+                title: "Google",
+                url: "https://www.google.com",
+                icon: "./themes/Yaru/apps/chrome.png",
+                bg: "#ffffff"
             },
             {
-                title: "LinkedIn",
-                url: "https://linkedin.com/in/yashbansal05",
-                icon: "./themes/Yaru/status/about.svg",
-                bg: "#0A66C2"
-            },
-            {
-                title: "LeetCode",
-                url: "https://leetcode.com",
-                icon: "./themes/Yaru/apps/calc.png",
-                bg: "#FFA116"
-            },
-            {
-                title: "LNMIIT",
-                url: "https://lnmiit.ac.in",
-                icon: "./themes/Yaru/status/education.svg",
-                bg: "#800000"
-            },
-            {
-                title: "YouTube",
-                url: "https://youtube.com",
-                icon: "./themes/Yaru/apps/spotify.png",
-                bg: "#FF0000"
-            },
-            {
-                title: "Wikipedia",
-                url: "https://wikipedia.org",
-                icon: "./themes/Yaru/status/skills.svg",
-                bg: "#333333"
+                title: "VS Code Web",
+                url: "https://vscode.dev",
+                icon: "./themes/Yaru/apps/vscode.png",
+                bg: "#007acc"
             }
         ];
+        this.state = {
+            url: 'https://www.google.com',
+            display_url: 'https://www.google.com',
+            is_home: true,
+            search_query: '',
+        };
     }
 
     componentDidMount() {
         let lastVisitedUrl = localStorage.getItem("chrome-url");
         let lastDisplayedUrl = localStorage.getItem("chrome-display-url");
-        if (lastVisitedUrl && lastVisitedUrl !== 'chrome://newtab') {
+        if (lastVisitedUrl) {
+            const isHome = lastVisitedUrl === 'https://www.google.com' || lastVisitedUrl.includes('google.com/webhp');
             this.setState({
                 url: lastVisitedUrl,
                 display_url: lastDisplayedUrl || lastVisitedUrl,
-                is_home: false
+                is_home: isHome
             });
         }
     }
@@ -83,62 +59,71 @@ export class Chrome extends Component {
     refreshChrome = () => {
         if (!this.state.is_home) {
             const iframe = document.getElementById("chrome-screen");
-            if (iframe) iframe.src += '';
+            if (iframe) {
+                iframe.src = this.state.url;
+            }
         }
     }
 
     goToHome = () => {
         this.setState({
-            url: 'chrome://newtab',
+            url: 'https://www.google.com',
             display_url: 'https://www.google.com',
-            search_query: '',
-            is_home: true
+            is_home: true,
+            search_query: ''
         });
-        this.storeVisitedUrl('chrome://newtab', 'https://www.google.com');
+        this.storeVisitedUrl('https://www.google.com', 'https://www.google.com');
     }
 
-    openInNewTab = (targetUrl) => {
-        const urlToOpen = targetUrl || (this.state.is_home ? 'https://www.google.com' : this.state.url);
-        window.open(urlToOpen, '_blank', 'noopener,noreferrer');
+    openInNewTab = (url = null) => {
+        const targetUrl = url || this.state.url;
+        window.open(targetUrl, "_blank", "noopener,noreferrer");
     }
 
-    performSearch = (query) => {
-        const trimmed = (query || this.state.search_query).trim();
-        if (!trimmed) return;
+    performSearch = () => {
+        const query = this.state.search_query.trim();
+        if (!query) return;
 
-        const isUrl = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/.test(trimmed);
+        let targetUrl = query;
 
-        if (isUrl) {
-            let finalUrl = trimmed;
-            if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
-                finalUrl = 'https://' + finalUrl;
-            }
-            window.open(finalUrl, '_blank', 'noopener,noreferrer');
-            this.setState({ display_url: finalUrl });
+        if (query.match(/^(http:\/\/|https:\/\/)/i)) {
+            targetUrl = query;
+        } else if (query.includes('.') && !query.includes(' ')) {
+            targetUrl = 'https://' + query;
         } else {
-            const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(trimmed)}`;
-            window.open(googleUrl, '_blank', 'noopener,noreferrer');
-            this.setState({ display_url: `https://www.google.com/search?q=${trimmed}` });
+            targetUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}&igu=1`;
         }
+
+        this.setState({
+            url: targetUrl,
+            display_url: targetUrl,
+            is_home: false,
+            search_query: ''
+        });
+        this.storeVisitedUrl(targetUrl, targetUrl);
     }
 
     checkKey = (e) => {
         if (e.key === "Enter") {
-            const input = e.target.value.trim();
-            if (input.length === 0) return;
+            let url = e.target.value.trim();
+            if (!url) return;
 
-            const isUrl = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/.test(input);
-
-            if (isUrl) {
-                let url = input;
-                if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                    url = 'https://' + url;
+            let targetUrl = url;
+            if (!url.match(/^(http:\/\/|https:\/\/)/i)) {
+                if (url.includes('.') && !url.includes(' ')) {
+                    targetUrl = 'https://' + url;
+                } else {
+                    targetUrl = `https://www.google.com/search?q=${encodeURIComponent(url)}&igu=1`;
                 }
-                this.setState({ url, display_url: url, is_home: false });
-                this.storeVisitedUrl(url, url);
-            } else {
-                this.performSearch(input);
             }
+
+            const isGoogleHome = targetUrl === 'https://www.google.com' || targetUrl === 'https://google.com';
+            this.setState({
+                url: targetUrl,
+                display_url: targetUrl,
+                is_home: isGoogleHome
+            });
+            this.storeVisitedUrl(targetUrl, targetUrl);
             document.getElementById("chrome-url-bar")?.blur();
         }
     }
